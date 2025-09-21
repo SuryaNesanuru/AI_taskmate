@@ -1,32 +1,21 @@
-import { openDB, DBSchema, IDBPDatabase } from 'idb';
+import { openDB, IDBPDatabase } from 'idb';
 import { Task, SyncQueueItem } from '@/lib/types/task';
 
-interface TaskMateDB extends DBSchema {
-  tasks: {
-    key: string;
-    value: Task;
-  };
-  syncQueue: {
-    key: string;
-    value: SyncQueueItem;
-  };
-}
-
 class OfflineDatabase {
-  private db: IDBPDatabase<TaskMateDB> | null = null;
+  private db: IDBPDatabase | null = null;
 
   async init(): Promise<void> {
     if (this.db) return;
 
-    this.db = await openDB<TaskMateDB>('taskmate-db', 1, {
+    this.db = await openDB('taskmate-db', 1, {
       upgrade(db) {
         // Tasks store
         if (!db.objectStoreNames.contains('tasks')) {
           const taskStore = db.createObjectStore('tasks', { keyPath: 'id' });
-          taskStore.createIndex('status', 'status');
-          taskStore.createIndex('priority', 'priority');
-          taskStore.createIndex('dueDate', 'dueDate');
-          taskStore.createIndex('createdAt', 'createdAt');
+          taskStore.createIndex('by-status', 'status');
+          taskStore.createIndex('by-priority', 'priority');
+          taskStore.createIndex('by-dueDate', 'dueDate');
+          taskStore.createIndex('by-createdAt', 'createdAt');
         }
 
         // Sync queue store

@@ -67,7 +67,7 @@ export function TaskModal({ isOpen, onClose, task }: TaskModalProps) {
         description: formData.description,
         priority: formData.priority,
         tags: formData.tags,
-        dueDate: formData.dueDate,
+        dueDate: formData.dueDate || undefined,
       });
     } else {
       await createTask({
@@ -75,7 +75,7 @@ export function TaskModal({ isOpen, onClose, task }: TaskModalProps) {
         description: formData.description,
         priority: formData.priority,
         tags: formData.tags,
-        dueDate: formData.dueDate,
+        dueDate: formData.dueDate || undefined,
       });
     }
 

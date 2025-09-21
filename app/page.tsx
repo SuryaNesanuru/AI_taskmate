@@ -91,7 +91,10 @@ export default function Home() {
           </div>
 
           {/* Filter Tabs */}
-          <FilterTabs selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} />
+          <FilterTabs 
+            selectedFilter={selectedFilter} 
+            onFilterChange={(filter) => setSelectedFilter(filter as typeof selectedFilter)} 
+          />
         </div>
 
         {/* Task List */}
