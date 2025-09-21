@@ -7,7 +7,7 @@ import { isToday, isFuture } from 'date-fns';
 
 interface FilterTabsProps {
   selectedFilter: string;
-  onFilterChange: (filter: 'all' | 'today' | 'upcoming' | 'high-priority' | 'completed') => void;
+  onFilterChange: (filter: string) => void;
 }
 
 export function FilterTabs({ selectedFilter, onFilterChange }: FilterTabsProps) {
