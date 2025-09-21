@@ -10,7 +10,7 @@ interface RateLimiter {
 // In production, you would use Redis/Upstash
 class SimpleRateLimit implements RateLimiter {
   private requests = new Map<string, number[]>();
-  private readonly limit = 10; // requests per window
+  private readonly maxRequests = 10; // requests per window
   private readonly window = 60 * 1000; // 1 minute in ms
 
   async limit(identifier: string): Promise<{ success: boolean }> {
@@ -26,7 +26,7 @@ class SimpleRateLimit implements RateLimiter {
     // Remove old requests outside the window
     const validRequests = userRequests.filter(time => time > windowStart);
     
-    if (validRequests.length >= this.limit) {
+    if (validRequests.length >= this.maxRequests) {
       return { success: false };
     }
     
